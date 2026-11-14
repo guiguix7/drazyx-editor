@@ -2,13 +2,13 @@
 
 # Drazyx Editor
 
-**A creative direction and production skill for the independent artist Drazyx.**
+**Portable creative direction and production skills for the independent artist Drazyx.**
 
-Professional music-video editing · Music production & audio QC · Artist identity · Music marketing · Release strategy
+Dedicated video post-production · Music production & audio QC · Artist identity · Music marketing · Release strategy
 
 [![Agent Skills](https://img.shields.io/badge/format-Agent%20Skills-8B5CF6)](https://agentskills.io/)
 [![OpenCode](https://img.shields.io/badge/agent-OpenCode-111827)](https://opencode.ai/)
-[![Status](https://img.shields.io/badge/status-v1.0.0-7C3AED)](#)
+[![Status](https://img.shields.io/badge/status-two%20skills-7C3AED)](#)
 
 </div>
 
@@ -16,7 +16,7 @@ Professional music-video editing · Music production & audio QC · Artist identi
 
 ## What is this?
 
-**Drazyx Editor is a reusable Agent Skill package** that gives compatible AI coding and creative agents the context, creative standards, and execution workflows needed to work on Drazyx music and promotional assets.
+**Drazyx Editor is a set of reusable Agent Skills** that gives compatible AI coding and creative agents the context, creative standards, and execution workflows needed to work on Drazyx music and promotional assets.
 
 It is not a standalone video editor, DAW, plugin, or rendering engine. It guides an agent that already has access to the relevant project files and tools.
 
@@ -24,12 +24,14 @@ The central principle is simple:
 
 > Music first. Visuals and marketing should make the music more compelling—not compete with it.
 
-The skill is built around Drazyx's real artist identity and working preferences. It is designed to prevent generic edits, unnecessary effects, endless planning, and incomplete delivery.
+The skills are built around Drazyx's documented artist identity and creative preferences. They are designed to prevent generic edits, unnecessary effects, endless planning, and incomplete delivery.
 
 ## Capabilities
 
 | Area | What the skill guides |
 |---|---|
+| Dedicated video editing (`drazyx-video`) | All-reference analysis, immediate hooks, music-led attention arcs, listener conversion, beat-aware motion, full rendering and QC |
+| Drazyx studio context (`drazyx`) | Artist identity, video post-production, music production and audio QC, marketing and release strategy |
 | Creative direction | Artist identity, visual language, references, typography, and art direction |
 | Music video editing | Short-form edits, music-led storytelling, pacing, motion design, and QC |
 | HyperFrames | Composition workflow, project inspection, previews, linting, rendering, and delivery |
@@ -38,6 +40,8 @@ The skill is built around Drazyx's real artist identity and working preferences.
 | Music marketing | Positioning, audience hypotheses, Reels/TikTok/Shorts, hooks, captions, CTAs, and measurement |
 | Release strategy | Release preparation, rollout, distribution metadata, rights checks, and post-release learning |
 
+The research PDF in `.agents/skills/docs/` informs the editing and marketing principles. Its specific platform statistics and algorithm claims are treated as hypotheses until verified from current first-party sources and Drazyx analytics.
+
 ## Quick start
 
 ### Install with the Skills CLI
@@ -45,10 +49,10 @@ The skill is built around Drazyx's real artist identity and working preferences.
 Run:
 
 ```bash
-npx skills add guiguix7/drazyx-editor
+npx skills add guiguix7/drazyx-editor --skill drazyx-video
 ```
 
-Select **drazyx**, choose your agent, and select global or project-level installation.
+Choose **drazyx-video** for video editing or **drazyx** for broader studio work, then choose your agent and global or project-level installation.
 
 To list the skills available in this repository first:
 
@@ -64,11 +68,13 @@ For a global installation, select OpenCode and global scope in the installer. Re
 @drazyx
 ```
 
-You can also use the repository's project-local copy under `.agents/skills/drazyx/` when this repository is opened directly in a compatible environment.
+For video work, install and invoke `drazyx-video` where the host supports named skill invocation.
+
+You can also use a project-local copy under `.agents/skills/` when this repository is opened in a compatible environment.
 
 ### Manual installation
 
-Copy the complete `.agents/skills/drazyx/` directory into the agent's supported skills directory. Keep the `references/` folder; the main skill file loads those documents on demand.
+Copy the complete `.agents/skills/drazyx-video/` or `.agents/skills/drazyx/` directory into the agent's supported skills directory. Keep the `references/` folder; the main skill file loads those documents on demand.
 
 See **[INSTALL.md](INSTALL.md)** for detailed setup, update, compatibility, and troubleshooting instructions.
 
@@ -85,23 +91,22 @@ drazyx-editor/
 ├── .gitignore
 ├── .agents/
 │   └── skills/
-│       └── drazyx/
+│       ├── drazyx/
+│       │   ├── SKILL.md
+│       │   └── references/...
+│       └── drazyx-video/
 │           ├── SKILL.md
-│           ├── INSTALL.md
-│           └── references/
-│               ├── brand-context.md
-│               ├── video-postproduction.md
-│               ├── music-production-qc.md
-│               ├── music-marketing.md
-│               └── release-playbook.md
+│           └── references/...
 └── skills/
-    └── drazyx/
+    ├── drazyx/
+    │   ├── SKILL.md
+    │   └── references/...
+    └── drazyx-video/
         ├── SKILL.md
-        └── references/
-            └── ...
+        └── references/...
 ```
 
-The distributable skill lives at `skills/drazyx/` for Skills CLI discovery. The `.agents/skills/drazyx/` copy supports project-local discovery in agents that scan that convention. Keep both copies in sync when updating the skill.
+Each distributable skill lives under `skills/` for Skills CLI discovery. `.agents/skills/` contains project-local mirrors for agents that scan that convention. The sync script updates these skill folders without removing unrelated local skills.
 
 ## How the skill works
 
@@ -158,7 +163,9 @@ Installing this skill does **not** install those tools, models, plugins, fonts, 
 
 ## Status
 
-This repository is the public home of the Drazyx Editor skill pack. Version **1.0.0** contains the core artist context and operating workflows. Agent-specific adapters, automated validation, and additional tooling can be added later without changing the core identity reference.
+This repository is the public home of the Drazyx Editor skill pack. `drazyx-video` is purpose-built for end-to-end music-video post-production. `drazyx` retains the broader artist, production, QC, marketing, and release context. The root `visual references/` media is a project-specific reference library and is not bundled into either installable skill; its README documents the intended analysis and rights boundaries.
+
+No compatibility is claimed for Freebuff until its skill discovery and media-editing tools are confirmed. Agent Skills format compatibility and the ability to render video are separate requirements.
 
 ---
 

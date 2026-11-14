@@ -43,6 +43,10 @@ Possible tools, chosen with restraint:
 
 The effect must have a stated purpose: direct attention, reveal a detail, create depth, reinforce a transient, establish a transition, or support the emotion. If it has no purpose, remove it.
 
+### Beat-accent motion
+
+A brief pulse zoom, glint, or restrained shake can emphasize a confirmed kick or other important transient, especially when the source is a static screen recording. Listen to the track and check the actual transient before placing it. Use controlled easing and a quick settle, leave room around the accent, and vary or omit it when the phrase needs to breathe. Do not pulse on every beat by default. The project's `visual references/README.md` explains how to extract the technique and devise a new Drazyx treatment without copying the source clip.
+
 ### For FL Studio / DAW footage
 
 - Keep the actual DAW session recognizable and central when it is the main source.

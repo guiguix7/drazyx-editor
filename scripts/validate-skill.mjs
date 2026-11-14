@@ -4,18 +4,20 @@ import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const canonical = resolve(root, "skills/drazyx");
-const mirror = resolve(root, ".agents/skills/drazyx");
-
-const required = [
-  "SKILL.md",
-  "INSTALL.md",
-  "references/brand-context.md",
-  "references/video-postproduction.md",
-  "references/music-production-qc.md",
-  "references/music-marketing.md",
-  "references/release-playbook.md"
-];
+const canonicalRoot = resolve(root, "skills");
+const mirrorRoot = resolve(root, ".agents/skills");
+const requiredBySkill = {
+  drazyx: [
+    "SKILL.md", "INSTALL.md", "references/brand-context.md",
+    "references/video-postproduction.md", "references/music-production-qc.md",
+    "references/music-marketing.md", "references/release-playbook.md"
+  ],
+  "drazyx-video": [
+    "SKILL.md", "INSTALL.md", "references/brand-context.md",
+    "references/video-postproduction.md", "references/visual-reference-analysis.md",
+    "references/attention-and-music-marketing.md"
+  ]
+};
 
 function fail(message) {
   console.error(`FAIL: ${message}`);
@@ -38,49 +40,68 @@ async function walk(dir) {
   return files;
 }
 
-const skillPath = join(canonical, "SKILL.md");
-let skill = "";
+let packageNames = [];
 try {
-  skill = await readFile(skillPath, "utf8");
+  packageNames = (await readdir(canonicalRoot, { withFileTypes: true }))
+    .filter(entry => entry.isDirectory())
+    .map(entry => entry.name)
+    .sort();
 } catch {
-  fail("skills/drazyx/SKILL.md is missing");
+  fail("skills directory is missing");
 }
 
-if (skill) {
-  if (!skill.startsWith("---\n")) fail("SKILL.md is missing YAML frontmatter");
-  if (!/^name:\s*drazyx\s*$/m.test(skill)) fail("frontmatter must declare name: drazyx");
-  if (!/^description:\s*.+$/m.test(skill)) fail("frontmatter must declare a description");
-}
-
-for (const rel of required) {
+for (const name of packageNames) {
+  const canonical = resolve(canonicalRoot, name);
+  const mirror = resolve(mirrorRoot, name);
+  const required = requiredBySkill[name] ?? ["SKILL.md", "INSTALL.md"];
+  const skillPath = join(canonical, "SKILL.md");
+  let skill = "";
   try {
-    await readFile(join(canonical, rel));
+    skill = await readFile(skillPath, "utf8");
   } catch {
-    fail(`canonical package is missing ${rel}`);
+    fail(`skills/${name}/SKILL.md is missing`);
   }
-}
 
-let canonicalFiles = [];
-let mirrorFiles = [];
-try {
-  canonicalFiles = (await walk(canonical)).map(p => relative(canonical, p)).sort();
-  mirrorFiles = (await walk(mirror)).map(p => relative(mirror, p)).sort();
-} catch {
-  fail("canonical or project-local skill directory is missing");
-}
+  if (skill) {
+    if (!skill.startsWith("---\n")) fail(`${name}/SKILL.md is missing YAML frontmatter`);
+    if (!new RegExp(`^name:\\s*${name}\\s*$`, "m").test(skill)) {
+      fail(`${name}/SKILL.md frontmatter must declare name: ${name}`);
+    }
+    if (!/^description:\s*.+$/m.test(skill)) fail(`${name}/SKILL.md must declare a description`);
+  }
 
-if (JSON.stringify(canonicalFiles) !== JSON.stringify(mirrorFiles)) {
-  fail("canonical and .agents skill file lists differ; run npm run sync");
-} else {
+  for (const rel of required) {
+    try {
+      await readFile(join(canonical, rel));
+    } catch {
+      fail(`skills/${name} is missing ${rel}`);
+    }
+  }
+
+  let canonicalFiles = [];
+  try {
+    canonicalFiles = (await walk(canonical)).map(p => relative(canonical, p)).sort();
+  } catch {
+    fail(`skills/${name} directory is missing`);
+    continue;
+  }
   for (const rel of canonicalFiles) {
-    const a = await digest(join(canonical, rel));
-    const b = await digest(join(mirror, rel));
-    if (a !== b) fail(`copies differ at ${rel}; run npm run sync`);
+    try {
+      const a = await digest(join(canonical, rel));
+      const b = await digest(join(mirror, rel));
+      if (a !== b) fail(`${name} copies differ at ${rel}; run npm run sync`);
+    } catch {
+      fail(`.agents/skills/${name} is missing ${rel}; run npm run sync`);
+    }
   }
+}
+
+for (const name of Object.keys(requiredBySkill)) {
+  if (!packageNames.includes(name)) fail(`required skill package skills/${name} is missing`);
 }
 
 if (process.exitCode) {
   console.error("Skill validation failed.");
 } else {
-  console.log(`PASS: Drazyx skill is valid; ${canonicalFiles.length} files are synchronized.`);
+  console.log(`PASS: ${packageNames.length} skill packages are valid and synchronized.`);
 }

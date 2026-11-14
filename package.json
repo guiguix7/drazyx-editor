@@ -2,7 +2,7 @@
   "name": "drazyx-editor",
   "version": "1.0.0",
   "private": true,
-  "description": "Drazyx Agent Skill pack for music video editing, music production, audio QC, and strategic music marketing.",
+  "description": "Portable Drazyx Agent Skills for music video post-production, artist identity, music production, audio QC, and release strategy.",
   "type": "module",
   "engines": {
     "node": ">=20"

@@ -6,33 +6,35 @@ This repository currently distributes a focused Agent Skill and reference materi
 
 ## Before changing files
 
-1. Read [README.md](README.md) and [skills/drazyx/SKILL.md](skills/drazyx/SKILL.md).
+1. Read [README.md](README.md) and the relevant package's `SKILL.md` (`skills/drazyx/` or `skills/drazyx-video/`).
 2. Read only the reference documents relevant to the proposed change.
 3. Keep the instructions tool-agnostic unless a tool-specific detail is essential.
 4. Do not add claims about platform algorithms, capabilities, or performance without reliable evidence.
 
 ## Where to edit
 
-The canonical skill package is:
+The canonical skill packages are:
 
 ```text
 skills/drazyx/
+skills/drazyx-video/
 ```
 
-The project-local copy is:
+The project-local mirrors are:
 
 ```text
 .agents/skills/drazyx/
+.agents/skills/drazyx-video/
 ```
 
-Edit the canonical package first, then synchronize the mirror:
+Edit the relevant canonical package first, then synchronize package mirrors:
 
 ```bash
 npm run sync
 npm run check
 ```
 
-Do not edit the two copies independently.
+Do not edit canonical and mirrored copies independently.
 
 ## Contribution standards
 
@@ -43,6 +45,8 @@ Do not edit the two copies independently.
 - Do not introduce unsafe, deceptive, or platform-abusive promotion tactics.
 - Preserve existing references unless there is a clear reason to replace them.
 - Keep examples realistic and clearly label placeholders.
+- For video references, document observable techniques and their editorial purpose. Do not incorporate reference footage, music, artwork, watermarks, or distinctive compositions without permission.
+- Do not describe a reference as viral or successful without performance evidence.
 
 ## Validation
 

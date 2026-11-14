@@ -16,17 +16,27 @@ Install only the Drazyx skill globally for OpenCode:
 npx skills add guiguix7/drazyx-editor --skill drazyx --agent opencode --global --yes
 ```
 
+Install the dedicated video-editing skill globally for OpenCode:
+
+```bash
+npx skills add guiguix7/drazyx-editor --skill drazyx-video --agent opencode --global --yes
+```
+
 Install globally for Codex:
 
 ```bash
 npx skills add guiguix7/drazyx-editor --skill drazyx --agent codex --global --yes
 ```
 
-Install interactively to choose an agent and scope:
+Replace `--skill drazyx` with `--skill drazyx-video` to install the dedicated video skill for Codex.
+
+Install interactively to choose a skill, agent, and scope:
 
 ```bash
 npx skills add guiguix7/drazyx-editor
 ```
+
+The repository includes two packages: `drazyx-video` for video post-production and `drazyx` for broader artist/studio work. You can install both when useful.
 
 List the skills found in the repository without installing:
 
@@ -43,6 +53,8 @@ In OpenCode, invoke it explicitly:
 ```text
 @drazyx
 ```
+
+For video edits, install `drazyx-video` and use that skill when named invocation is supported.
 
 You can also describe a task that clearly falls within the skill's description. Compatible agents may discover it automatically.
 
@@ -72,9 +84,9 @@ The complete skill is in:
 .agents/skills/drazyx/
 ```
 
-Copy that entire folder—including `SKILL.md`, `INSTALL.md`, and `references/`—to the directory scanned by your agent.
+Copy the entire folder for the selected skill—including `SKILL.md`, `INSTALL.md`, and `references/`—to the directory scanned by your agent.
 
-For OpenCode, project-level discovery supports `.agents/skills/`. For a global install, use the CLI command above or the global skill directory documented by your installed OpenCode version.
+For OpenCode, project-level discovery supports `.agents/skills/`. Use the folder for the skill you need, such as `.agents/skills/drazyx-video/`. For a global install, use the CLI command above or the global skill directory documented by your installed OpenCode version. Other hosts use their own discovery paths; confirm support and reference-file loading in the target version.
 
 ## Update
 
@@ -106,13 +118,13 @@ To reinstall from this GitHub repository, run the install command again and foll
 - Ask the agent to report unavailable tools rather than claiming to have rendered or inspected files.
 
 **Freebuff compatibility**
-Freebuff must support the Agent Skills format or provide an adapter to its own skill format. Do not assume that OpenCode discovery paths are automatically valid in Freebuff. Start by pointing Freebuff to `.agents/skills/drazyx/SKILL.md` and confirm that it can also read the sibling `references/` folder.
+Freebuff must support the Agent Skills format or provide an adapter to its own skill format. Do not assume OpenCode discovery paths automatically work in Freebuff. Confirm whether it can read `.agents/skills/drazyx-video/SKILL.md` and sibling `references/` files. Rendering also requires separate access to an editing tool and source media. Compatibility has not yet been tested.
 
 ## Repository layout
 
-- `skills/drazyx/` is the canonical installable package discovered by the Skills CLI.
-- `.agents/skills/drazyx/` is a project-local copy for agents that scan this convention.
-- `scripts/sync-skill.mjs` copies the canonical package into the project-local directory.
-- `scripts/validate-skill.mjs` verifies required files and that both copies match.
+- `skills/<name>/` contains canonical installable packages discovered by the Skills CLI.
+- `.agents/skills/<name>/` contains project-local mirrors for agents that scan this convention.
+- `scripts/sync-skill.mjs` copies canonical packages to their mirror folders without removing unrelated local skills.
+- `scripts/validate-skill.mjs` verifies each package's required files and canonical/mirror content.
 
-When editing the skill, change `skills/drazyx/` first, then run `npm run sync` and `npm run check`.
+When editing a skill, change its package under `skills/` first, then run `npm run sync` and `npm run check`.

@@ -34,6 +34,8 @@ Use a balanced portfolio rather than a feed made entirely of release announcemen
 
 Each post needs one primary objective. Do not make every post do every job.
 
+For a video-editing task, pair this marketing brief with `drazyx-video/references/attention-and-music-marketing.md`. Treat its user-provided research PDF as idea generation: its useful editorial prompts (fast relevance, a curiosity arc with payoff, emotional fit, replay value, and a clear path from discovery to music) are testable hypotheses. Do not inherit its exact platform percentages, retention thresholds, audience demographics, or claims about algorithmic weighting without current official evidence and relevant data.
+
 ## Short-form content design
 
 For each concept define:
