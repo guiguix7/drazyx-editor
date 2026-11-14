@@ -1,9 +1,9 @@
-import { readFile, readdir } from "node:fs/promises";
 import { createHash } from "node:crypto";
-import { join, relative, resolve } from "node:path";
+import { readFile, readdir } from "node:fs/promises";
+import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const root = resolve(new URL("..", import.meta.url).pathname);
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const canonical = resolve(root, "skills/drazyx");
 const mirror = resolve(root, ".agents/skills/drazyx");
 
