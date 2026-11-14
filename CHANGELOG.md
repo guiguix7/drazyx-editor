@@ -2,17 +2,18 @@
 
 All notable changes to Drazyx Editor are documented here.
 
-## [Unreleased]
+## [1.1.0] - 2026-11-14
 
 ### Added
-- Dedicated `drazyx-video` skill for end-to-end music-video post-production across compatible agents.
-- A complete-reference inspection method and attention/marketing guide covering immediate hooks, retention arcs, listener conversion, platform-aware testing, and analytics.
-- Reference-analysis guidance for the 13 project videos, including beat-accent motion, fresh creative adaptation, and rights boundaries.
-- Video-skill installation instructions and clearer distinctions between Agent Skills support and media-tool availability.
+- Repository-level `AGENTS.md` routing tasks to the correct Drazyx skill and defining execution and reference-library rules.
+- A short-form growth-funnel playbook connecting discovery, retention, resonance, artist intent, listening action, and listener retention.
+- A persistent reference-map workflow so the 13 supplied videos can be inspected once, documented with timestamps/version identifiers, and reused without repeating full analysis for unchanged files.
 
 ### Changed
-- Synchronization and validation now cover multiple skill packages while leaving unrelated local skills intact.
-- Project documentation describes the separate video and general studio skills.
+- Dedicated video skill now treats funnel stage, listener hypothesis, primary KPI, hook, payoff, and CTA as explicit parts of the creative brief.
+- The editing guide now explains when and how to use pulse zoom, glint, and shake without turning them into repetitive effects.
+- Skill synchronization replaces each package mirror before copying, preventing stale files from surviving.
+- Validation checks non-empty repository instructions, required references, frontmatter, resolvable skill references, and exact canonical/mirror file sets.
 
 ## [1.0.0] - 2026-11-13
 
@@ -24,4 +25,4 @@ All notable changes to Drazyx Editor are documented here.
 - Music marketing, short-form content, campaign measurement, and promotion strategy.
 - Release preparation, distribution, metadata, and rights checks.
 - Installation and troubleshooting documentation.
-- Validation and synchronization scripts for the installable and project-local copies.
+- Validation and synchronization scripts for installable and project-local copies.

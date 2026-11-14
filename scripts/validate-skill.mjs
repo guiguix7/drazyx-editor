@@ -15,7 +15,8 @@ const requiredBySkill = {
   "drazyx-video": [
     "SKILL.md", "INSTALL.md", "references/brand-context.md",
     "references/video-postproduction.md", "references/visual-reference-analysis.md",
-    "references/attention-and-music-marketing.md"
+    "references/attention-and-music-marketing.md",
+    "references/short-form-growth-funnel.md"
   ]
 };
 
@@ -40,6 +41,14 @@ async function walk(dir) {
   return files;
 }
 
+async function relativeFiles(dir) {
+  try {
+    return (await walk(dir)).map(path => relative(dir, path).split("\\").join("/")).sort();
+  } catch {
+    return null;
+  }
+}
+
 let packageNames = [];
 try {
   packageNames = (await readdir(canonicalRoot, { withFileTypes: true }))
@@ -48,6 +57,13 @@ try {
     .sort();
 } catch {
   fail("skills directory is missing");
+}
+
+try {
+  const instructions = await readFile(join(root, "AGENTS.md"), "utf8");
+  if (!instructions.trim()) fail("AGENTS.md is empty; add repository-level agent instructions");
+} catch {
+  fail("AGENTS.md is missing");
 }
 
 for (const name of packageNames) {
@@ -63,35 +79,62 @@ for (const name of packageNames) {
   }
 
   if (skill) {
-    if (!skill.startsWith("---\n")) fail(`${name}/SKILL.md is missing YAML frontmatter`);
-    if (!new RegExp(`^name:\\s*${name}\\s*$`, "m").test(skill)) {
-      fail(`${name}/SKILL.md frontmatter must declare name: ${name}`);
+    const match = skill.match(/^---\\r?\\n([\\s\\S]*?)\\r?\\n---\\r?\\n/);
+    if (!match) {
+      fail(`${name}/SKILL.md is missing valid YAML frontmatter delimiters`);
+    } else {
+      const frontmatter = match[1];
+      if (!new RegExp(`^name:\\s*["']?${name}["']?\\s*$`, "m").test(frontmatter)) {
+        fail(`${name}/SKILL.md frontmatter must declare name: ${name}`);
+      }
+      const description = frontmatter.match(/^description:\\s*(.+)$/m)?.[1]?.trim();
+      if (!description) fail(`${name}/SKILL.md must declare a description`);
+      if (description && description.length > 1024) {
+        fail(`${name}/SKILL.md description exceeds 1024 characters`);
+      }
     }
-    if (!/^description:\s*.+$/m.test(skill)) fail(`${name}/SKILL.md must declare a description`);
+
+    for (const [, ref] of skill.matchAll(/references\\/([A-Za-z0-9._-]+\\.md)/g)) {
+      try {
+        await readFile(join(canonical, "references", ref));
+      } catch {
+        fail(`skills/${name}/SKILL.md references missing file references/${ref}`);
+      }
+    }
   }
 
   for (const rel of required) {
     try {
-      await readFile(join(canonical, rel));
+      const content = await readFile(join(canonical, rel), "utf8");
+      if (!content.trim()) fail(`skills/${name}/${rel} is empty`);
     } catch {
       fail(`skills/${name} is missing ${rel}`);
     }
   }
 
-  let canonicalFiles = [];
-  try {
-    canonicalFiles = (await walk(canonical)).map(p => relative(canonical, p)).sort();
-  } catch {
+  const canonicalFiles = await relativeFiles(canonical);
+  const mirrorFiles = await relativeFiles(mirror);
+  if (!canonicalFiles) {
     fail(`skills/${name} directory is missing`);
     continue;
   }
-  for (const rel of canonicalFiles) {
+  if (!mirrorFiles) {
+    fail(`.agents/skills/${name} directory is missing; run npm run sync`);
+    continue;
+  }
+
+  const missing = canonicalFiles.filter(file => !mirrorFiles.includes(file));
+  const extra = mirrorFiles.filter(file => !canonicalFiles.includes(file));
+  for (const file of missing) fail(`.agents/skills/${name} is missing ${file}; run npm run sync`);
+  for (const file of extra) fail(`.agents/skills/${name} contains stale file ${file}; run npm run sync`);
+
+  for (const rel of canonicalFiles.filter(file => mirrorFiles.includes(file))) {
     try {
       const a = await digest(join(canonical, rel));
       const b = await digest(join(mirror, rel));
       if (a !== b) fail(`${name} copies differ at ${rel}; run npm run sync`);
     } catch {
-      fail(`.agents/skills/${name} is missing ${rel}; run npm run sync`);
+      fail(`could not compare canonical and mirror file ${name}/${rel}`);
     }
   }
 }
@@ -103,5 +146,5 @@ for (const name of Object.keys(requiredBySkill)) {
 if (process.exitCode) {
   console.error("Skill validation failed.");
 } else {
-  console.log(`PASS: ${packageNames.length} skill packages are valid and synchronized.`);
+  console.log(`PASS: ${packageNames.length} skill packages have required files, valid frontmatter, resolvable references, and exact mirrors.`);
 }
