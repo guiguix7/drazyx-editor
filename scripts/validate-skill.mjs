@@ -43,7 +43,9 @@ async function walk(dir) {
 
 async function relativeFiles(dir) {
   try {
-    return (await walk(dir)).map(path => relative(dir, path).split("\\").join("/")).sort();
+    return (await walk(dir))
+      .map(path => relative(dir, path).split("\\").join("/"))
+      .sort();
   } catch {
     return null;
   }
@@ -72,6 +74,7 @@ for (const name of packageNames) {
   const required = requiredBySkill[name] ?? ["SKILL.md", "INSTALL.md"];
   const skillPath = join(canonical, "SKILL.md");
   let skill = "";
+
   try {
     skill = await readFile(skillPath, "utf8");
   } catch {
@@ -79,27 +82,27 @@ for (const name of packageNames) {
   }
 
   if (skill) {
-    const match = skill.match(/^---\\r?\\n([\\s\\S]*?)\\r?\\n---\\r?\\n/);
-    if (!match) {
-      fail(`${name}/SKILL.md is missing valid YAML frontmatter delimiters`);
+    const lines = skill.replaceAll("\r", "").split("\n");
+    const closingIndex = lines.indexOf("---", 1);
+
+    if (lines[0] !== "---" || closingIndex < 0) {
+      fail(`${name}/SKILL.md is missing YAML frontmatter delimiters`);
     } else {
-      const frontmatter = match[1];
-      if (!new RegExp(`^name:\\s*["']?${name}["']?\\s*$`, "m").test(frontmatter)) {
-        fail(`${name}/SKILL.md frontmatter must declare name: ${name}`);
-      }
-      const description = frontmatter.match(/^description:\\s*(.+)$/m)?.[1]?.trim();
+      const frontmatter = lines.slice(1, closingIndex);
+      const nameLine = frontmatter.find(line => line.startsWith("name:"));
+      const descriptionLine = frontmatter.find(line => line.startsWith("description:"));
+      const declaredName = nameLine?.slice("name:".length).trim().replace(/^["']|["']$/g, "");
+      const description = descriptionLine?.slice("description:".length).trim().replace(/^["']|["']$/g, "");
+
+      if (declaredName !== name) fail(`${name}/SKILL.md frontmatter must declare name: ${name}`);
       if (!description) fail(`${name}/SKILL.md must declare a description`);
       if (description && description.length > 1024) {
         fail(`${name}/SKILL.md description exceeds 1024 characters`);
       }
     }
 
-    for (const [, ref] of skill.matchAll(/references\\/([A-Za-z0-9._-]+\\.md)/g)) {
-      try {
-        await readFile(join(canonical, "references", ref));
-      } catch {
-        fail(`skills/${name}/SKILL.md references missing file references/${ref}`);
-      }
+    for (const ref of required.filter(path => path.startsWith("references/"))) {
+      if (!skill.includes(ref)) fail(`skills/${name}/SKILL.md does not reference ${ref}`);
     }
   }
 
@@ -146,5 +149,5 @@ for (const name of Object.keys(requiredBySkill)) {
 if (process.exitCode) {
   console.error("Skill validation failed.");
 } else {
-  console.log(`PASS: ${packageNames.length} skill packages have required files, valid frontmatter, resolvable references, and exact mirrors.`);
+  console.log(`PASS: ${packageNames.length} skill packages have required files, valid frontmatter, documented references, and exact mirrors.`);
 }
