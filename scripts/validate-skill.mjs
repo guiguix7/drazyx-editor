@@ -14,8 +14,8 @@ const requiredBySkill = {
   ],
   "drazyx-video": [
     "SKILL.md", "INSTALL.md", "references/brand-context.md",
-    "references/video-postproduction.md", "references/visual-reference-analysis.md",
-    "references/attention-and-music-marketing.md",
+    "references/video-postproduction.md", "references/music-energy-and-art-direction.md",
+    "references/visual-reference-analysis.md", "references/attention-and-music-marketing.md",
     "references/short-form-growth-funnel.md"
   ]
 };
@@ -102,7 +102,7 @@ for (const name of packageNames) {
     }
 
     for (const ref of required.filter(path => path.startsWith("references/"))) {
-      if (!skill.includes(ref)) fail(`skills/${name}/SKILL.md does not reference ${ref}`);
+      if (!skill.includes(ref)) fail(`${name}/SKILL.md does not reference ${ref}`);
     }
   }
 
