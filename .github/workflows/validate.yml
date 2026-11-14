@@ -1,4 +1,4 @@
-name: Validate skill package
+name: Validate skill packages
 
 on:
   push:
@@ -19,5 +19,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Validate skill package
+      - name: Validate committed packages and mirrors
+        run: npm run check
+      - name: Smoke-test canonical-to-mirror synchronization
+        run: npm run sync
+      - name: Validate synchronized packages
         run: npm run check
