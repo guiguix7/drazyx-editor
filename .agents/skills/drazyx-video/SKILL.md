@@ -1,14 +1,14 @@
 ---
 name: drazyx-video
-description: "Plan, edit, animate, render, or review music videos and short-form music promos for Drazyx. Use with raw footage, FL Studio/DAW recordings, artwork, games, visual references, an existing project, or a master track. Covers reference analysis, hooks, retention, music-discovery funnels, platform-aware marketing, beat-aware motion, export QC, and delivery."
+description: "Plan, edit, animate, render, or review music videos and short-form music promos for Drazyx. Use with raw footage, FL Studio/DAW recordings, artwork, games, visual references, an existing project, or a master track. Covers music-energy and mood diagnosis, art direction, reference analysis, hooks, retention, music-discovery funnels, beat-aware motion, export QC, and delivery."
 metadata:
   author: "Drazyx"
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Drazyx Video Editor
 
-Act as an editor and post-production lead with the judgment of a music-video creative director. Deliver the requested finished media, not just a plan. Make deliberate, original edits whose pacing follows the actual music and whose marketing purpose is clear.
+Act as an editor and post-production lead with the judgment of a music-video creative director. Deliver the requested finished media, not just a plan. Make deliberate, original edits whose pacing, visual language, energy, and emotional character follow the actual music and whose marketing purpose is clear.
 
 This is an Agent Skill, not an editor or renderer. Inspect the host's real files, applications, commands, permissions, and media access before choosing a workflow. Never claim a capability just because this skill describes it.
 
@@ -16,15 +16,16 @@ This is an Agent Skill, not an editor or renderer. Inspect the host's real files
 
 Before substantial creative decisions, read:
 
-- `references/brand-context.md` — Drazyx identity and creative boundaries.
-- `references/video-postproduction.md` — editorial, technical, batch, and QC standards.
-- `references/visual-reference-analysis.md` — how to inspect and adapt the supplied reference collection.
-- `references/attention-and-music-marketing.md` — hooks, attention arcs, listener conversion, and analytics.
-- `references/short-form-growth-funnel.md` — funnel stages, content roles, measurement, attribution, and testing.
+- references/brand-context.md — Drazyx identity and creative boundaries.
+- references/video-postproduction.md — editorial, technical, batch, and QC standards.
+- references/music-energy-and-art-direction.md — mandatory music diagnosis and translation of energy, mood, groove, and atmosphere into visual decisions.
+- references/visual-reference-analysis.md — how to inspect and adapt the supplied reference collection.
+- references/attention-and-music-marketing.md — hooks, attention arcs, listener conversion, and analytics.
+- references/short-form-growth-funnel.md — funnel stages, content roles, measurement, attribution, and testing.
 
-For broader release, production, or artist context, also read the relevant references in `skills/drazyx/`.
+For broader release, production, or artist context, also read the relevant references in skills/drazyx/.
 
-When editing inside this repository, read `visual references/README.md`. On the first project use, inspect all 13 supplied reference clips from beginning to end when playback tools permit and create `visual references/REFERENCE-MAP.md` with timestamped observations and reliable file identifiers. On later tasks, reuse the map for unchanged clips and inspect new/changed or previously inaccessible clips. Never claim full inspection if media access is unavailable. The reference videos and research PDF live outside this installable package; an installed copy cannot assume those files exist.
+When editing inside this repository, read visual references/README.md. On the first project use, inspect all 13 supplied reference clips from beginning to end when playback tools permit and create visual references/REFERENCE-MAP.md with timestamped observations and reliable file identifiers. On later tasks, reuse the map for unchanged clips and inspect new/changed or previously inaccessible clips. Never claim full inspection if media access is unavailable. The reference videos and research PDF live outside this installable package; an installed copy cannot assume those files exist.
 
 ## Work from a delivery contract
 
@@ -51,7 +52,7 @@ Follow the user's scope. If asked to improve three videos, improve and render al
 
 ### 2. Inspect creative references and research
 
-- Follow `references/visual-reference-analysis.md`. Use the 13 supplied clips as a technique library, never as source footage or templates.
+- Follow references/visual-reference-analysis.md. Use the 13 supplied clips as a technique library, never as source footage or templates.
 - Record actual timestamps and observable techniques. Separate what was seen from what is inferred about editorial function or performance.
 - Convert each useful technique into a materially different Drazyx treatment using artist-owned/licensed media and the current track's musical structure.
 - If the research PDF is available, read it as secondary research. Treat its exact algorithm claims, percentages, thresholds, demographics, and causal explanations as hypotheses unless verified with current official platform sources and relevant artist analytics.
@@ -60,13 +61,35 @@ Follow the user's scope. If asked to improve three videos, improve and render al
 ### 3. Understand the music
 
 - Find the track's actual emotional center, distinctive musical hook, phrasing, fills, drops, pauses, melodic turns, and ending.
+- Listen to the complete track and each selected excerpt when audio access permits. Do not choose a mood from a filename, genre tag, BPM, key, waveform, or visual alone.
 - Use BPM, waveform, transient/onset detection, and spectrograms as supporting aids—not substitutes for listening or editorial judgment.
 - Map exact source timestamps for candidate excerpts. Protect important attacks, phrasing, and effect tails.
 - Never invent a sound source, lyric, production action, or cause-and-effect relationship that the footage does not show.
 
-### 4. Choose the funnel stage and creative direction
+### 4. Classify energy, mood, groove, and atmosphere — mandatory
 
-Read `references/short-form-growth-funnel.md` and decide the post's primary job:
+Read references/music-energy-and-art-direction.md before committing to an edit direction.
+
+For the full track and every selected excerpt, record:
+- Perceived energy (1–5).
+- Groove/dance drive (1–5).
+- Emotional valence (-2 to +2).
+- Tension, musical density, and spatial openness (each 1–5).
+- Primary and secondary mood, plus any emotional contradiction.
+- Section trajectory and timestamped signature musical events.
+- Confidence and any limitation in listening or analysis.
+
+Do not collapse these dimensions into one vague label. "Melancholic but danceable", "sad but high-energy", "dreamy and upbeat", and "motivational with a slow build" require different visual treatments. BPM does not equal energy; danceability does not equal happiness; minor key does not prove sadness.
+
+Translate the diagnosis into a concrete visual grammar **before editing**: cut cadence, camera behavior, motion intensity, beat accents, transitions, palette, light, texture, typography, opening hook, and payoff. Every major choice must be traceable to a musical event, emotional purpose, footage fact, or delivery requirement.
+
+Drazyx's dark/editorial identity is a flexible signature, not a preset. Do not make every track dark, purple, slow, grainy, or atmospheric by default. Let the current song's character determine the treatment.
+
+For substantial or multi-video tasks, include a section-level music-direction table in the edit brief or save it as MUSIC-DIRECTION.md. Keep notes concise for minor edits.
+
+### 5. Choose the funnel stage and creative direction
+
+Read references/short-form-growth-funnel.md and decide the post's primary job:
 
 - **Discovery:** earn attention from a likely listener with a distinctive sound, image, feeling, or truthful question.
 - **Experience:** hold attention and deliver the promise through musical/visual progression.
@@ -77,23 +100,24 @@ Read `references/short-form-growth-funnel.md` and decide the post's primary job:
 
 One post should have one primary job. Do not force a hard CTA into every discovery video. Views are not streams; never promise virality or treat reach as listener conversion.
 
-Write a compact edit brief containing: listener hypothesis, platform, funnel stage, objective/KPI, first frame, first audible moment, hook/promise, timecoded musical map, visual progression, payoff, artist identity treatment, CTA, and what to avoid.
+Write a compact edit brief containing: listener hypothesis, platform, funnel stage, objective/KPI, emotional/energy profile, first frame, first audible moment, hook/promise, timecoded musical map, visual grammar, visual progression, payoff, artist identity treatment, CTA, and what to avoid.
 
 Before rendering, map each deliverable's timeline with timecode, audible event, visible action, editorial function (hook/setup/development/payoff/resolution), on-screen text/CTA, and intended viewer response.
 
-### 5. Build the edit
+### 6. Build the edit
 
 - Use the simplest capable tool already available: an NLE, timeline MCP, HyperFrames, Remotion, FFmpeg, or a combination. Confirm versions and commands before use.
 - Prefer the existing project and assets when the user requests an improvement. Put new renders and intermediates in clearly named project folders; do not overwrite source files.
 - Put distinctive music and a readable visual idea in the opening. Remove dead-air/logo preambles and setup that delays the promised value.
-- Sustain attention with purposeful progression: musical detail, real production action, changed crop, visual reveal, contrast, or emotional shift. Do not add motion every second just to fill time.
-- Make cut points from musical and visual intent, not a rigid beat grid. Faster music may support tighter subdivisions; slow or melancholic sections may need longer holds, focus shifts, light, texture, reframing, or narrative evolution.
-- Use pulse zoom, glint, or shake only on a confirmed meaningful transient when it strengthens impact. Shape it with controlled easing and a quick settle. Do not pulse on every kick or stack effects indiscriminately.
+- Apply the diagnosed music profile, not a generic "music edit" preset. Energy sets the permissible activity; groove sets accent timing; mood/valence set emotional light and framing; tension shapes buildup/release; density limits visual complexity; trajectory shapes the edit arc.
+- Keep attention with purposeful progression: musical detail, real production action, changed crop, visual reveal, contrast, or emotional shift. Do not add motion every second just to fill time.
+- Make cut points from musical and visual intent, not a rigid beat grid. Faster music may support tighter subdivisions; slow or melancholic sections may need longer holds but must still develop through focus, light, framing, texture, contrast, or narrative when appropriate.
+- Use pulse zoom, glint, shake, speed changes, or directional movement only when a confirmed musical event and the mood justify them. Define the trigger, amplitude, duration, easing, recovery, and purpose. Do not pulse on every kick or stack effects indiscriminately.
 - Preserve legibility and recognizability of real DAW footage. Keep relevant arrangement, piano-roll, mixer, plugin, or automation details visible. Do not invent cursor movements, plugins, or activity.
 - Keep branding, titles, lyrics, artwork, credits, and CTAs accurate and authorized. Confirm track title, release status, and destination before showing them.
-- For multiple deliverables, assign different editorial jobs; do not create near-identical versions by changing only a title/filter. Make a complete first pass for every requested output before polishing one.
+- For multiple deliverables, assign different editorial jobs and energy treatments; do not create near-identical versions by changing only a title/filter. Make a complete first pass for every requested output before polishing one.
 
-### 6. Render and review
+### 7. Render and review
 
 - Render all requested full-length deliverables. A preview or proof is only a technical check, never final delivery.
 - Inspect the rendered media, not only the timeline, code, still frames, or render log. Review the opening, representative middle moments, transitions, peak/payoff, and ending; watch complete playback when practical.
@@ -102,7 +126,7 @@ Before rendering, map each deliverable's timeline with timecode, audible event, 
 - Fix material defects, render final versions again, and inspect the corrected output.
 - Deliver every requested final file and editable project/source where available. State exact paths, format, duration, what was checked, and what remains unverified.
 
-### 7. Learn from published results
+### 8. Learn from published results
 
 When analytics are supplied, compare posts with similar platform, length, audience context, and observation window. Diagnose the funnel stage that needs work: opening retention, mid-video progression, completion/replay, shares/saves, profile interest, link clicks, or attributable listening actions. Change one major creative variable at a time and record the hypothesis and result. Use the artist's own historical baseline; do not invent universal benchmarks.
 
